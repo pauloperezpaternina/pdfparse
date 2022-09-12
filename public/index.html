@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>PDF Extract</title>
 </head>
 <body>
     <input type="file" name="inpFile" id="inpFile">
@@ -12,11 +12,13 @@
     <br>
     <br>
     <textarea name="" id="resultText" cols="30" rows="20" placeholder="Your PDF text will appear here..."></textarea>
-
+    <input type="text" id="word" placeholder="Buscar palabra">
+    <div id="result"></div>
     <script>
         const inpFile = document.getElementById("inpFile");
         const btnUpload = document.getElementById("btnUpload");
         const resultText = document.getElementById("resultText");
+        //const wordtxt = document.getElementById("word");
 
         btnUpload.addEventListener("click", () =>{
             const formData = new FormData();
@@ -30,6 +32,17 @@
                 return response.text();
             }).then(extractedText => {
                 resultText.value = extractedText;
+                var wordtxt =document.getElementById("word").value;
+
+                var index = extractedText.toUpperCase().indexOf(wordtxt.toUpperCase());
+
+                if(index >= 0) {
+                    console.log("la palabra existe dentro de la cadena y se encuentra en la posición " + index);
+                    document.getElementById("result").innerHTML="la palabra "+wordtxt+" existe dentro de la cadena y se encuentra en la posición " + index;
+                } else {
+                    console.log("la palabra no existe dentro de la cadena");
+                    document.getElementById("result").innerHTML="la palabra "+wordtxt.getElementById("result")+" no existe dentro de la cadena";
+                }
             });
         });
     </script>
